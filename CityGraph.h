@@ -3,19 +3,19 @@
 #include "city.h"
 #include <string>
 #include <iostream>
-#include <stack>
+#include <queue>
 #include <set>
 using namespace std;
 class CityGraph
 {
 private:
-    City* Cities[7] = {  new City("stadt1"),
+    City* Cities[7] = {  new City("stadt0"),
+                         new City("stadt1"),
                          new City("stadt2"),
                          new City("stadt3"),
                          new City("stadt4"),
                          new City("stadt5"),
                          new City("stadt6"),
-                         new City("stadt7"),
                         };
     int citynum = 7;
     int matrix[7][7];
@@ -75,11 +75,11 @@ public:
         }
 
         cout << "Showing connections from "<<getCityNameById(city)<<endl;
-        for(int i : matrix[city])
+        for(int i = 0; i < citynum; i++)
         {
-            if(i != -1)
+            if(matrix[city][i] != -1)
             {
-                cout << i<<" | "<<getCityNameById(i)<<endl;
+                cout << i<<" | "<<getCityNameById(i)<< " duration: "<<matrix[city][i]<< endl;
             }
         }
 
@@ -116,26 +116,47 @@ public:
 
     void showConnected(int city) // Keine garantie auf richtigkeit lol. Das soll ne tiefensuche sein, die
     {                               // Alle erreichbaren knoten findet und in visited speichert.
-        stack<int> s;
+        queue<int> s;
         set<int> visited;
         int current = city;
-        s.push(current);
+        s.push(current);        
+
+        cout << "(You are at "<<getCityNameById(city)<<" )You can reach following stations by transfers: "<<endl;
 
         while(!s.empty()) // solange stack !empty
         {
-            for(int c : matrix[current])
+            current = s.front();
+            s.pop();
+            for(int i = 0 ; i < citynum; i++)
             {
-                if(!visited.count(c))
+                if(!visited.count(matrix[current][i]) && matrix[current][i]!= -1)
                 {
-                    s.push(c);
+                    s.push(i);
 
                 }
+
             }
             visited.insert(current);
-            s.pop();
         }
 
+        for(auto element : visited)
+        {
+            if(!(element == city))
+            {
+                cout << "- "<<element<< " | "<<getCityNameById(element)<<endl;
+            }
+        }
     }
 
+    void buildworld()
+    {
+        init();
+
+        setConnection(0,1,40);
+        setConnection(0,2,40);
+        setConnection(2,3,40);
+        setConnection(3,6,40);
+        setConnection(4,5,40);
+    }
 };
 #endif // CITYGRAPH_H

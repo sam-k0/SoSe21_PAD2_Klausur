@@ -11,7 +11,11 @@ public:
     CityWithInfo(string n, int pop);
     ~CityWithInfo();
 
-    int getPopulation();
+    int getPopulation() override;
+
+    void deletePopulation();
+
+    bool populationSchnaps() override;
 
 };
 
