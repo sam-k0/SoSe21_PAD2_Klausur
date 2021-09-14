@@ -1,5 +1,5 @@
 # pad_CityConnect
-SoSe21 Klausur Replika
+Summer Semester 2021 PAD2 Exam replica
 
 Does not implement all tasks from the exam (UI and some Errorhandling) but shows most of the required functionality.
 
